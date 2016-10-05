@@ -1,31 +1,65 @@
 package com.kirill.lab6;
 
+import java.nio.channels.InterruptedByTimeoutException;
+import java.util.Random;
+
 /**
  * Created by Kirill on 01.10.2016.
  */
 public class Car extends Thread {
     private int way;
+    private String name;
     private int dellay;
-    private boolean isCanRide;
+    private boolean isRide=false;
+    Car(){
+
+    }
+    Car(int way,String name){
+        this.way=way;
+        dellay = new Random().nextInt(2000)+2000;
+        this.name = name;
+    }
     @Override
     public void run() {
-        super.run();
+        System.out.println("Хэх, Здарова");
+        while(!isRide){
+            // примитив для синхронизации
+                Thread.yield();
+        }
+
+
     }
     public synchronized void ride(){
-        if(isCanRide){
+        System.out.println("Машина "+ name+" едет(я не знаю как это работает) в направлении "+way);
+        isRide=true;
+    }
+    public synchronized void waitTime(){
+        System.out.println("Машина "+ name+" ожидает( я не знаю как это работает)");
+        try{
+            Thread.yield();
+            join(dellay);
+        }catch (InterruptedException e){
 
         }
-        else{
 
-        }
+    }
+
+
+    public String getNameCar() {
+        return name;
+    }
+
+
+    public void setNameCar(String name) {
+        this.name = name;
     }
 
     public boolean getIsCanRide() {
-        return isCanRide;
+        return isRide;
     }
 
     public void setIsCanRide(boolean canRide) {
-        this.isCanRide = canRide;
+        this.isRide = canRide;
     }
 
     public int getWay() {
